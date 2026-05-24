@@ -128,12 +128,12 @@ body{
 .search-row .refresh.spin svg{animation:rot .6s linear infinite;}
 @keyframes rot{to{transform:rotate(360deg);}}
 
-#grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(46px,1fr));gap:5px;}
-@media(max-width:380px){#grid{grid-template-columns:repeat(auto-fill,minmax(40px,1fr));gap:4px;}}
+#grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(42px,1fr));gap:4px;}
+@media(max-width:380px){#grid{grid-template-columns:repeat(auto-fill,minmax(36px,1fr));gap:3px;}}
 
-.ticket{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:8px;border:1.5px solid;font-family:var(--serif);font-size:.88rem;font-weight:700;cursor:pointer;user-select:none;transition:transform .12s,box-shadow .15s;-webkit-tap-highlight-color:transparent;position:relative;}
+.ticket{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:7px;border:1.5px solid;font-family:var(--serif);font-size:.8rem;font-weight:700;cursor:pointer;user-select:none;transition:transform .12s,box-shadow .15s;-webkit-tap-highlight-color:transparent;position:relative;}
 .ticket:active{transform:scale(.92);}
-.ticket-badge{font-family:var(--sans);font-size:.36rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-top:2px;opacity:.7;}
+.ticket-badge{font-family:var(--sans);font-size:.3rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-top:1px;opacity:.7;}
 .ticket.DISPONIBLE{background:#fff;border-color:var(--g-br);color:var(--g-tx);}
 .ticket.DISPONIBLE:hover{box-shadow:0 0 0 3px rgba(61,148,96,.22);transform:translateY(-1px);}
 .ticket.APARTADO{background:var(--a-bg);border-color:var(--a-br);color:var(--a-tx);}
@@ -192,6 +192,7 @@ body{
 .action-btn svg{width:22px;height:22px;}
 .action-btn.apartar{background:var(--a-bg);border:1.5px solid var(--a-br);color:var(--a-tx);}
 .action-btn.pagar{background:linear-gradient(135deg,var(--gold-d),var(--gold));border:1.5px solid var(--gold-d);color:#fff;box-shadow:0 4px 14px rgba(184,134,11,.25);}
+.action-btn.cancelar{background:var(--r-bg);border:1.5px solid var(--r-br);color:var(--r-tx);}
 
 /* PAGO */
 .pay-card{background:linear-gradient(135deg,#fff,var(--cream));border:1.5px solid var(--gold);border-radius:14px;padding:18px;margin-bottom:14px;text-align:center;box-shadow:0 4px 18px rgba(184,134,11,.12);}
@@ -304,13 +305,6 @@ body{
 </div>
 
 <div class="panel active" id="panel-grid">
-  <div class="progress-card">
-    <div class="progress-head">
-      <span class="progress-title">Avance del sorteo</span>
-      <span class="progress-pct" id="progressPct">0%</span>
-    </div>
-    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
-  </div>
   <div class="stats" id="stats"></div>
   <div class="legend">
     <div class="leg"><div class="leg-dot" style="background:var(--g-br)"></div>Disponible</div>
@@ -596,13 +590,7 @@ function renderStats(tt){
     '<div class="stat"><div class="stat-n p">'+(c.PAGADO||0)+'</div><div class="stat-l">Pagado</div></div>'+
     '<div class="stat"><div class="stat-n c">'+(c.CANCELADO||0)+'</div><div class="stat-l">Canc.</div></div>';
 }
-function renderProgress(tt){
-  if(!tt.length)return;
-  var ocupado=tt.filter(function(t){return t.estado==='APARTADO'||t.estado==='PAGADO';}).length;
-  var pct=Math.round(ocupado/tt.length*100);
-  $('progressPct').textContent=pct+'%';
-  $('progressFill').style.width=pct+'%';
-}
+function renderProgress(tt){}
 
 var lbl={DISPONIBLE:'libre',APARTADO:'apart.',PAGADO:'pagado',CANCELADO:'cancel.'};
 function renderGrid(tt){
@@ -632,7 +620,6 @@ function highlight(){
 function openModal(t){
   curNum=t.numero;curTicket=t;
   $('mTitle').textContent='Boleta #'+t.numero;
-  $('mNumCancel').textContent='#'+t.numero;
   $('mNum').textContent='#'+t.numero;
   $('pagoNum').textContent='Boleta #'+t.numero;
   $('apNum').textContent='#'+t.numero;
@@ -658,7 +645,6 @@ function renderInfo(t){
     html+='<div class="info-row"><span class="k">Comprobante</span><span class="v"><a href="'+t.desprendible+'" target="_blank" style="color:var(--p-tx);">Ver</a></span></div>';
   }
   $('infoCard').innerHTML=html;
-  if(t.estado==='CANCELADO'){} 
 }
 function closeModal(){
   $('overlay').classList.remove('open');
@@ -666,7 +652,6 @@ function closeModal(){
   load(true);
 }
 function bgClick(e){if(e.target===$('overlay'))closeModal();}
-
 function showForm(mode){
   curMode=mode;
   $('formSubtitle').textContent=mode==='pagar'
@@ -694,8 +679,7 @@ async function submitForm(){
   }
 }
 
-
-function showForm(mode){
+function payOnFile(){
   var f=$('payFile').files[0];
   if(!f){
     payFileData=null;hide('payFileName');hide('payUBtn');
