@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Rifa Solidaria · $500.000</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700;9..144,800&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --gold:#b8860b;--gold-l:#d4a418;--gold-d:#7a5807;
+  --gold-soft:#f7eecf;--cream:#fbf6ec;--cream-d:#f3ead4;
+  --bg:#faf6ec;--card:#ffffff;--card2:#fdfaf2;
+  --border:#e8dcc0;--border2:#d4c39a;
+  --txt:#2b1f0c;--txt2:#5a4624;--muted:#8a7553;
+  --g-bg:#e8f5ec;--g-br:#3d9460;--g-tx:#1f6939;
+  --a-bg:#fef3d8;--a-br:#d4940f;--a-tx:#6b4a05;
+  --p-bg:#e3edfc;--p-br:#3066b8;--p-tx:#0f3a73;
+  --c-bg:#f0ebe2;--c-br:#a89878;--c-tx:#6b5a3a;
+  --r-bg:#fdebe6;--r-br:#c44535;--r-tx:#7a1f15;
+  --sh:0 2px 12px rgba(74,52,16,.06);
+  --sh2:0 6px 24px rgba(74,52,16,.10);
+  --sh3:0 12px 40px rgba(74,52,16,.18);
+  --serif:'Fraunces',Georgia,serif;
+  --sans:'Sora',system-ui,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-tap-highlight-color:transparent}
+body{
+  font-family:var(--sans);background:var(--bg);color:var(--txt);
+  min-height:100vh;overscroll-behavior:none;
+  background-image:
+    radial-gradient(circle at 10% 0%,rgba(212,164,24,.08),transparent 50%),
+    radial-gradient(circle at 90% 100%,rgba(139,69,19,.05),transparent 50%);
+}
+
+/* HERO */
+.hero{
+  background:linear-gradient(135deg,#1a1208 0%,#3d2812 55%,#5a3a15 100%);
+  color:#fff;padding:28px 18px 22px;
+  position:relative;overflow:hidden;
+  border-bottom:3px solid var(--gold);
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(circle at 85% -20%,rgba(212,164,24,.35),transparent 45%),
+    radial-gradient(circle at -10% 110%,rgba(212,164,24,.20),transparent 50%);
+  pointer-events:none;
+}
+.hero-inner{max-width:700px;margin:0 auto;position:relative;text-align:center;}
+.hero-tag{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(212,164,24,.18);border:1px solid rgba(212,164,24,.45);
+  border-radius:20px;padding:5px 12px 5px 9px;
+  font-size:.66rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
+  color:#f5d97a;margin-bottom:14px;
+}
+.hero-tag svg{width:12px;height:12px;}
+.hero h1{
+  font-family:var(--serif);font-weight:700;
+  font-size:clamp(1.8rem,6vw,2.6rem);
+  line-height:1.05;letter-spacing:-.02em;color:#fff;margin-bottom:6px;
+}
+.hero h1 em{
+  font-style:italic;font-weight:500;
+  background:linear-gradient(135deg,#f5d97a,#d4a418);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.hero-sub{font-size:.82rem;color:rgba(255,255,255,.7);line-height:1.5;max-width:380px;margin:0 auto 16px;}
+
+.hero-prize{
+  display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:14px;
+  max-width:480px;margin:0 auto;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);
+  border-radius:14px;padding:14px 16px;
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+}
+.hp-block{text-align:center;}
+.hp-label{font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.55);font-weight:600;margin-bottom:3px;}
+.hp-value{font-family:var(--serif);font-weight:700;font-size:1.5rem;line-height:1;color:#fff;}
+.hp-value.gold{background:linear-gradient(135deg,#fae08a,#d4a418);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hp-sub{font-size:.62rem;color:rgba(255,255,255,.5);margin-top:2px;}
+.hp-divider{width:1px;height:36px;background:linear-gradient(to bottom,transparent,rgba(255,255,255,.25),transparent);}
+
+.live{display:inline-flex;align-items:center;gap:7px;margin-top:14px;font-size:.62rem;color:rgba(255,255,255,.55);letter-spacing:.08em;text-transform:uppercase;}
+.live-dot{width:7px;height:7px;border-radius:50%;background:#5fc88a;box-shadow:0 0 0 0 rgba(95,200,138,.5);animation:pulse 1.6s infinite;}
+.live.off .live-dot{background:#c4c4c4;animation:none;box-shadow:none;}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(95,200,138,.6);}70%{box-shadow:0 0 0 8px rgba(95,200,138,0);}100%{box-shadow:0 0 0 0 rgba(95,200,138,0);}}
+
+/* TABS */
+.tabs{display:flex;background:#fff;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:49;box-shadow:var(--sh);}
+.tab{flex:1;padding:14px 8px;border:none;background:transparent;font-family:var(--sans);font-size:.82rem;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;transition:all .18s;display:flex;align-items:center;justify-content:center;gap:8px;}
+.tab svg{width:16px;height:16px;flex-shrink:0;}
+.tab.active{color:var(--gold-d);border-bottom-color:var(--gold);}
+.tab:hover:not(.active){color:var(--txt);}
+
+.panel{display:none;padding:18px;max-width:760px;margin:0 auto;padding-bottom:80px;}
+.panel.active{display:block;}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-bottom:18px;}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 4px;text-align:center;box-shadow:var(--sh);transition:transform .15s;}
+.stat:hover{transform:translateY(-1px);}
+.stat-n{font-family:var(--serif);font-weight:700;font-size:1.4rem;line-height:1;}
+.stat-l{font-size:.56rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-top:4px;font-weight:600;}
+.stat-n.g{color:var(--g-tx)}.stat-n.a{color:var(--a-tx)}.stat-n.p{color:var(--p-tx)}.stat-n.c{color:var(--c-tx)}.stat-n.gold{color:var(--gold-d)}
+
+.progress-card{background:linear-gradient(135deg,#fff,var(--cream));border:1px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:16px;box-shadow:var(--sh);}
+.progress-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;}
+.progress-title{font-size:.72rem;font-weight:700;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;}
+.progress-pct{font-family:var(--serif);font-weight:700;font-size:1.1rem;color:var(--gold-d);}
+.progress-bar{height:8px;background:var(--cream-d);border-radius:4px;overflow:hidden;border:1px solid var(--border);}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--gold-d),var(--gold),var(--gold-l));border-radius:4px;transition:width .6s ease;}
+
+.legend{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-bottom:14px;}
+.leg{display:flex;align-items:center;gap:6px;font-size:.72rem;color:var(--muted);font-weight:500;}
+.leg-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0;}
+
+.search-row{display:flex;gap:8px;margin-bottom:18px;}
+.search-row input{flex:1;background:var(--card);border:1px solid var(--border);color:var(--txt);border-radius:10px;padding:12px 14px;font-size:.9rem;font-family:var(--sans);outline:none;transition:all .18s;box-shadow:var(--sh);}
+.search-row input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(184,134,11,.12);}
+.search-row button{background:var(--txt);border:none;border-radius:10px;color:#fff;font-family:var(--sans);font-weight:600;font-size:.82rem;padding:12px 18px;cursor:pointer;white-space:nowrap;transition:opacity .15s;}
+.search-row button:hover{opacity:.85;}
+.search-row .refresh{background:#fff;border:1px solid var(--border2);color:var(--muted);padding:12px 13px;display:flex;align-items:center;justify-content:center;}
+.search-row .refresh svg{width:16px;height:16px;}
+.search-row .refresh.spin svg{animation:rot .6s linear infinite;}
+@keyframes rot{to{transform:rotate(360deg);}}
+
+#grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:7px;}
+@media(max-width:380px){#grid{grid-template-columns:repeat(auto-fill,minmax(54px,1fr));gap:6px;}}
+
+.ticket{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:10px;border:1.5px solid;font-family:var(--serif);font-size:1.05rem;font-weight:700;cursor:pointer;user-select:none;transition:transform .12s,box-shadow .15s;-webkit-tap-highlight-color:transparent;position:relative;}
+.ticket:active{transform:scale(.92);}
+.ticket-badge{font-family:var(--sans);font-size:.42rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-top:3px;opacity:.7;}
+.ticket.DISPONIBLE{background:#fff;border-color:var(--g-br);color:var(--g-tx);}
+.ticket.DISPONIBLE:hover{box-shadow:0 0 0 3px rgba(61,148,96,.22);transform:translateY(-1px);}
+.ticket.APARTADO{background:var(--a-bg);border-color:var(--a-br);color:var(--a-tx);}
+.ticket.APARTADO:hover{box-shadow:0 0 0 3px rgba(212,148,15,.22);}
+.ticket.PAGADO{background:var(--p-bg);border-color:var(--p-br);color:var(--p-tx);}
+.ticket.PAGADO:hover{box-shadow:0 0 0 3px rgba(48,102,184,.22);}
+.ticket.CANCELADO{background:var(--c-bg);border-color:var(--c-br);color:var(--c-tx);opacity:.5;}
+.ticket.CANCELADO:hover{opacity:.75;}
+
+/* MODAL */
+.overlay{position:fixed;inset:0;background:rgba(20,12,4,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:flex;align-items:flex-end;justify-content:center;z-index:200;opacity:0;pointer-events:none;transition:opacity .2s;}
+@media(min-width:480px){.overlay{align-items:center;}}
+.overlay.open{opacity:1;pointer-events:all;}
+.modal{background:var(--card);width:100%;max-width:460px;border-radius:22px 22px 0 0;box-shadow:var(--sh3);transform:translateY(100%);transition:transform .3s cubic-bezier(.32,1,.44,1);overflow:hidden;max-height:94vh;overflow-y:auto;}
+@media(min-width:480px){.modal{border-radius:20px;transform:translateY(20px) scale(.96);max-height:88vh;}}
+.overlay.open .modal{transform:none;}
+.modal-handle{width:44px;height:4px;background:var(--border2);border-radius:4px;margin:10px auto 0;}
+@media(min-width:480px){.modal-handle{display:none;}}
+.modal-head{background:linear-gradient(135deg,#2b1f0c 0%,#5a3a15 100%);padding:20px 22px 16px;position:relative;overflow:hidden;}
+.modal-head::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 80% 20%,rgba(212,164,24,.25),transparent 50%);}
+.modal-head-row{display:flex;align-items:center;gap:12px;position:relative;}
+.modal-head svg.head-ico{width:24px;height:24px;flex-shrink:0;color:var(--gold-l);}
+.modal-head h2{font-family:var(--serif);font-size:1.2rem;font-weight:700;color:#fff;letter-spacing:-.01em;}
+.modal-head p{font-size:.74rem;color:rgba(245,217,122,.85);margin-top:2px;letter-spacing:.04em;}
+.modal-close{margin-left:auto;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:5px 10px;color:#fff;cursor:pointer;font-family:var(--sans);font-size:.7rem;font-weight:600;transition:background .15s;}
+.modal-close:hover{background:rgba(255,255,255,.2);}
+.modal-body{padding:22px;}
+
+.confirm-q{font-size:.92rem;text-align:center;line-height:1.65;margin-bottom:18px;color:var(--txt);}
+.confirm-q strong{font-family:var(--serif);color:var(--gold-d);font-size:1.15rem;font-weight:700;}
+
+.price-info{background:var(--cream);border:1px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;}
+.price-info-l{font-size:.7rem;color:var(--muted);font-weight:600;letter-spacing:.06em;text-transform:uppercase;}
+.price-info-v{font-family:var(--serif);font-size:1.3rem;font-weight:700;color:var(--gold-d);}
+
+.two-btn{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+
+.field{margin-bottom:14px;}
+.field label{display:block;font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+.field input{width:100%;background:var(--card2);border:1.5px solid var(--border);color:var(--txt);border-radius:10px;padding:12px 13px;font-size:.92rem;font-family:var(--sans);outline:none;transition:all .18s;}
+.field input:focus{border-color:var(--gold);background:#fff;box-shadow:0 0 0 3px rgba(184,134,11,.1);}
+.field input[type=file]{padding:9px 12px;cursor:pointer;font-size:.82rem;}
+
+.btn{width:100%;padding:13px;border-radius:10px;border:none;font-family:var(--sans);font-size:.88rem;font-weight:700;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:8px;}
+.btn svg{width:17px;height:17px;flex-shrink:0;}
+.btn:disabled{opacity:.5;cursor:not-allowed;}
+.btn-gold{background:linear-gradient(135deg,var(--gold-d),var(--gold));color:#fff;box-shadow:0 4px 14px rgba(184,134,11,.28);}
+.btn-gold:hover:not(:disabled){filter:brightness(1.08);transform:translateY(-1px);}
+.btn-outline{background:var(--card2);border:1.5px solid var(--border2);color:var(--muted);}
+.btn-outline:hover:not(:disabled){border-color:var(--gold);color:var(--gold-d);}
+.btn-red{background:var(--r-bg);border:1.5px solid var(--r-br);color:var(--r-tx);}
+.btn-red:hover:not(:disabled){background:var(--r-br);color:#fff;}
+
+.action-btn{padding:14px 8px;border-radius:11px;border:none;font-family:var(--sans);font-size:.82rem;font-weight:700;cursor:pointer;transition:all .15s;display:flex;flex-direction:column;align-items:center;gap:6px;line-height:1.3;}
+.action-btn:hover{transform:translateY(-1px);}
+.action-btn svg{width:22px;height:22px;}
+.action-btn.apartar{background:var(--a-bg);border:1.5px solid var(--a-br);color:var(--a-tx);}
+.action-btn.pagar{background:linear-gradient(135deg,var(--gold-d),var(--gold));border:1.5px solid var(--gold-d);color:#fff;box-shadow:0 4px 14px rgba(184,134,11,.25);}
+.action-btn.cancelar{background:var(--r-bg);border:1.5px solid var(--r-br);color:var(--r-tx);}
+
+/* PAGO */
+.pay-card{background:linear-gradient(135deg,#fff,var(--cream));border:1.5px solid var(--gold);border-radius:14px;padding:18px;margin-bottom:14px;text-align:center;box-shadow:0 4px 18px rgba(184,134,11,.12);}
+.pay-ticket-num{display:inline-block;font-family:var(--serif);font-weight:700;font-size:.72rem;background:var(--gold-d);color:#fff;padding:4px 14px;border-radius:20px;letter-spacing:.04em;margin-bottom:10px;}
+.pay-card h4{font-family:var(--serif);font-weight:700;font-size:1.15rem;color:var(--txt);margin-bottom:4px;letter-spacing:-.01em;}
+.pay-amount{font-family:var(--serif);font-weight:700;font-size:2rem;color:var(--gold-d);line-height:1;margin:8px 0 4px;}
+.pay-amount-sub{font-size:.72rem;color:var(--muted);margin-bottom:14px;}
+.pay-img-wrap{width:200px;height:200px;border-radius:14px;overflow:hidden;border:2px solid var(--gold-soft);box-shadow:var(--sh2);margin:0 auto 12px;cursor:pointer;display:block;background:#fff;}
+.pay-img-wrap img{width:100%;height:100%;object-fit:cover;display:block;}
+.pay-img-hint{font-size:.7rem;color:var(--muted);margin-bottom:8px;display:flex;align-items:center;justify-content:center;gap:5px;}
+.pay-img-hint svg{width:11px;height:11px;}
+
+.upload-zone{background:#fff;border:2px dashed var(--gold);border-radius:14px;padding:18px 16px;text-align:center;transition:all .2s;}
+.upload-zone.has-file{border-style:solid;background:var(--g-bg);border-color:var(--g-br);}
+.upload-icon{width:48px;height:48px;border-radius:12px;background:var(--gold-soft);display:flex;align-items:center;justify-content:center;margin:0 auto 10px;color:var(--gold-d);}
+.upload-icon svg{width:24px;height:24px;}
+.upload-zone.has-file .upload-icon{background:var(--g-bg);color:var(--g-tx);}
+.upload-zone h5{font-family:var(--serif);font-weight:700;font-size:1rem;color:var(--txt);margin-bottom:4px;}
+.upload-zone p{font-size:.74rem;color:var(--muted);margin-bottom:12px;line-height:1.5;}
+.upload-zone p strong{color:var(--txt);}
+.file-input-wrap{position:relative;display:inline-block;width:100%;}
+.file-input-wrap input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;}
+.file-fake-btn{display:flex;align-items:center;justify-content:center;gap:8px;background:var(--cream);border:1.5px solid var(--gold);border-radius:9px;padding:11px 14px;font-family:var(--sans);font-weight:600;font-size:.82rem;color:var(--gold-d);cursor:pointer;transition:background .15s;}
+.file-fake-btn:hover{background:var(--gold-soft);}
+.file-fake-btn svg{width:16px;height:16px;}
+.file-selected{margin-top:10px;font-size:.76rem;color:var(--g-tx);font-weight:600;display:flex;align-items:center;justify-content:center;gap:6px;word-break:break-all;}
+.file-selected svg{width:14px;height:14px;flex-shrink:0;}
+
+.success-wrap{text-align:center;padding:8px 0;}
+.success-icon{width:78px;height:78px;border-radius:50%;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;position:relative;}
+.success-icon svg{width:38px;height:38px;}
+.success-icon.gold{background:linear-gradient(135deg,var(--gold-soft),#ffe080);}
+.success-icon.green{background:linear-gradient(135deg,#daf3e2,#a8e8bd);}
+.success-icon.red{background:var(--r-bg);}
+.success-wrap h3{font-family:var(--serif);font-size:1.3rem;font-weight:700;color:var(--txt);margin-bottom:8px;letter-spacing:-.01em;}
+.success-wrap p{font-size:.84rem;color:var(--txt2);line-height:1.65;}
+.success-wrap p strong{color:var(--gold-d);}
+
+.info-card{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:14px;}
+.info-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border);font-size:.84rem;}
+.info-row:last-child{border-bottom:none;}
+.info-row .k{font-size:.66rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);}
+.info-row .v{font-weight:700;color:var(--txt);text-align:right;font-family:var(--sans);}
+
+/* CONSULTAR */
+.q-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px;box-shadow:var(--sh2);}
+.q-card h3{font-family:var(--serif);font-size:1.2rem;font-weight:700;color:var(--txt);margin-bottom:6px;text-align:center;letter-spacing:-.01em;}
+.q-card .q-sub{font-size:.78rem;color:var(--muted);text-align:center;margin-bottom:18px;}
+.result-box{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:16px;margin-top:16px;display:none;}
+.result-box.show{display:block;}
+.rrow{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:.84rem;}
+.rrow:last-child{border-bottom:none;}
+.rrow .k{font-size:.68rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);}
+.rrow .v{font-weight:700;color:var(--txt);}
+.badge{padding:3px 10px;border-radius:20px;font-size:.66rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;}
+.badge.DISPONIBLE{background:var(--g-bg);color:var(--g-tx);}
+.badge.APARTADO{background:var(--a-bg);color:var(--a-tx);}
+.badge.PAGADO{background:var(--p-bg);color:var(--p-tx);}
+.badge.CANCELADO{background:var(--c-bg);color:var(--c-tx);}
+
+#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--txt);border:none;border-radius:12px;padding:13px 22px;font-size:.84rem;font-weight:600;color:#fff;box-shadow:var(--sh3);z-index:999;transition:transform .28s cubic-bezier(.34,1.56,.64,1);max-width:90vw;text-align:center;}
+#toast.show{transform:translateX(-50%) translateY(0);}
+#toast.ok{background:var(--g-tx);}
+#toast.err{background:var(--r-tx);}
+
+.loader{text-align:center;padding:48px 16px;color:var(--muted);}
+.spin{width:36px;height:36px;margin:0 auto 14px;border:3px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:sp .75s linear infinite;}
+@keyframes sp{to{transform:rotate(360deg)}}
+
+.footer{text-align:center;padding:20px 16px 28px;font-size:.7rem;color:var(--muted);border-top:1px solid var(--border);margin-top:20px;}
+.footer strong{color:var(--gold-d);font-weight:700;}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <span class="hero-tag">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      Rifa Solidaria
+    </span>
+    <h1>Tu boleta <em>cambia</em> vidas</h1>
+    <p class="hero-sub">Cada número apoya una causa. Participa y gana una recompensa que vale más que dinero.</p>
+    <div class="hero-prize">
+      <div class="hp-block">
+        <div class="hp-label">Premio</div>
+        <div class="hp-value gold">$500.000</div>
+        <div class="hp-sub">en efectivo</div>
+      </div>
+      <div class="hp-divider"></div>
+      <div class="hp-block">
+        <div class="hp-label">Tu boleta</div>
+        <div class="hp-value">$10.000</div>
+        <div class="hp-sub">por número</div>
+      </div>
+    </div>
+    <div class="live" id="live"><span class="live-dot"></span><span id="liveTxt">Conectado en tiempo real</span></div>
+  </div>
+</header>
+
+<div class="tabs">
+  <button class="tab active" onclick="switchTab('panel-grid',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+    Tablero
+  </button>
+  <button class="tab" onclick="switchTab('panel-query',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    Consultar
+  </button>
+</div>
+
+<div class="panel active" id="panel-grid">
+  <div class="progress-card">
+    <div class="progress-head">
+      <span class="progress-title">Avance del sorteo</span>
+      <span class="progress-pct" id="progressPct">0%</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  </div>
+  <div class="stats" id="stats"></div>
+  <div class="legend">
+    <div class="leg"><div class="leg-dot" style="background:var(--g-br)"></div>Disponible</div>
+    <div class="leg"><div class="leg-dot" style="background:var(--a-br)"></div>Apartado</div>
+    <div class="leg"><div class="leg-dot" style="background:var(--p-br)"></div>Pagado</div>
+    <div class="leg"><div class="leg-dot" style="background:var(--c-br)"></div>Cancelado</div>
+  </div>
+  <div class="search-row">
+    <input type="number" id="sNum" placeholder="Buscar número…" inputmode="numeric"/>
+    <button onclick="highlight()">Buscar</button>
+    <button class="refresh" id="refreshBtn" onclick="manualRefresh()" title="Actualizar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+    </button>
+  </div>
+  <div id="grid"><div class="loader"><div class="spin"></div>Cargando números…</div></div>
+</div>
+
+<div class="panel" id="panel-query">
+  <div class="q-card" style="margin-top:14px;">
+    <h3>Consulta tu número</h3>
+    <p class="q-sub">Revisa el estado de tu boleta o sube tu comprobante</p>
+    <div class="field">
+      <label>Número de Rifa</label>
+      <input type="number" id="qNum" placeholder="Ej: 42" inputmode="numeric"/>
+    </div>
+    <button class="btn btn-gold" onclick="doQuery()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      Consultar
+    </button>
+    <div class="result-box" id="resultBox">
+      <div class="rrow"><span class="k">Número</span><span class="v" id="r-n">—</span></div>
+      <div class="rrow"><span class="k">Estado</span><span class="v" id="r-e">—</span></div>
+      <div class="rrow"><span class="k">Comprador</span><span class="v" id="r-c">—</span></div>
+      <div class="rrow"><span class="k">Teléfono</span><span class="v" id="r-t">—</span></div>
+      <div class="rrow"><span class="k">Cédula</span><span class="v" id="r-cc">—</span></div>
+
+      <div id="qUploadWrap" style="display:none;margin-top:14px;">
+        <div class="upload-zone" id="qUploadZone">
+          <div class="upload-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/><polyline points="16 16 12 12 8 16"/></svg>
+          </div>
+          <h5>Sube tu comprobante</h5>
+          <p>JPG, PNG o PDF · <strong>Máx 5 MB</strong></p>
+          <div class="file-input-wrap">
+            <input type="file" id="qUFile" accept="image/*,.pdf" onchange="qOnFile()"/>
+            <div class="file-fake-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+              Elegir archivo
+            </div>
+          </div>
+          <div class="file-selected" id="qFileName" style="display:none;"></div>
+          <button class="btn btn-gold" id="qUBtn" onclick="qSubirComprobante()" style="margin-top:12px;display:none;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Subir comprobante
+          </button>
+        </div>
+      </div>
+
+      <div id="compRow" style="display:none;margin-top:12px;text-align:center;padding:12px;background:var(--p-bg);border-radius:10px;">
+        <a id="compUrl" href="#" target="_blank" style="font-size:.82rem;color:var(--p-tx);font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:6px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          Ver comprobante cargado
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">Cada boleta suma. <strong>Gracias por participar.</strong></div>
+
+<div class="overlay" id="overlay" onclick="bgClick(event)">
+  <div class="modal" id="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-head">
+      <div class="modal-head-row">
+        <svg class="head-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+        <div>
+          <h2 id="mTitle">Boleta #000</h2>
+          <p id="mSub">Selecciona una opción</p>
+        </div>
+        <button class="modal-close" onclick="closeModal()">Cerrar</button>
+      </div>
+    </div>
+    <div class="modal-body">
+
+      <div id="v-opciones">
+        <div class="price-info">
+          <div>
+            <div class="price-info-l">Boleta</div>
+            <div style="font-family:var(--serif);font-weight:700;font-size:1.05rem;color:var(--txt);margin-top:2px;" id="mNum">—</div>
+          </div>
+          <div style="text-align:right;">
+            <div class="price-info-l">Valor</div>
+            <div class="price-info-v">$10.000</div>
+          </div>
+        </div>
+        <p class="confirm-q">¿Qué deseas hacer con esta boleta?</p>
+        <div class="two-btn">
+          <button class="action-btn apartar" onclick="showForm('apartar')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+            Solo Apartar
+          </button>
+          <button class="action-btn pagar" onclick="showForm('pagar')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+            Comprar y Pagar
+          </button>
+        </div>
+      </div>
+
+      <div id="v-info" style="display:none;">
+        <div class="info-card" id="infoCard"></div>
+        <button class="action-btn cancelar" onclick="showConfirmCancel()" id="btnCancelarInfo" style="width:100%;flex-direction:row;gap:10px;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+          Cancelar Boleta
+        </button>
+        <button class="btn btn-outline" onclick="closeModal()" style="margin-top:10px;">Cerrar</button>
+      </div>
+
+      <div id="v-form" style="display:none;">
+        <p style="font-size:.82rem;color:var(--muted);margin-bottom:14px;line-height:1.55;" id="formSubtitle"></p>
+        <div class="field"><label>Nombre Completo</label><input type="text" id="f-nombre" placeholder="Ej: Juan Pérez"/></div>
+        <div class="field"><label>Teléfono</label><input type="tel" id="f-tel" placeholder="3001234567" inputmode="tel"/></div>
+        <div class="field"><label>Cédula</label><input type="text" id="f-ced" placeholder="1234567890" inputmode="numeric"/></div>
+        <div style="display:flex;gap:8px;margin-top:6px;">
+          <button class="btn btn-outline" onclick="showView('v-opciones')" style="width:auto;padding:12px 18px;">Atrás</button>
+          <button class="btn btn-gold" id="fBtn" onclick="submitForm()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Confirmar
+          </button>
+        </div>
+      </div>
+
+      <div id="v-cancel-confirm" style="display:none;">
+        <p class="confirm-q">¿Confirmas que deseas <strong style="color:var(--r-tx);font-family:var(--serif)">cancelar</strong> la boleta <strong id="mNumCancel">—</strong>?</p>
+        <div style="display:flex;gap:8px;">
+          <button class="btn btn-outline" onclick="backFromCancel()">No, volver</button>
+          <button class="btn btn-red" onclick="doCancelar()" id="cancelBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+            Sí, Cancelar
+          </button>
+        </div>
+      </div>
+
+      <div id="v-ok-apartar" style="display:none;">
+        <div class="success-wrap">
+          <div class="success-icon gold">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--gold-d)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+          </div>
+          <h3>Boleta Apartada</h3>
+          <p>Tu número <strong id="apNum"></strong> fue reservado.<br/>Recuerda realizar el pago para confirmarlo desde la pestaña <strong>Consultar</strong>.</p>
+          <button class="btn btn-outline" onclick="closeModal()" style="margin-top:18px;">Cerrar</button>
+        </div>
+      </div>
+
+      <div id="v-pago" style="display:none;">
+        <div class="pay-card">
+          <div class="pay-ticket-num" id="pagoNum">Boleta #—</div>
+          <h4>Realiza tu pago</h4>
+          <div class="pay-amount">$10.000</div>
+          <div class="pay-amount-sub">COP — valor de tu boleta</div>
+          <a href="https://drive.google.com/file/d/1NHU_dUgGdZFsvFNzwdV52nU1oHHdM6SZ/view?usp=sharing" target="_blank" class="pay-img-wrap">
+            <img src="https://drive.google.com/thumbnail?id=1NHU_dUgGdZFsvFNzwdV52nU1oHHdM6SZ&sz=w400" alt="Datos de pago" onerror="this.src='https://placehold.co/400x400/fbf6ec/b8860b?text=Datos+de+Pago'"/>
+          </a>
+          <div class="pay-img-hint">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v6m0 6v6m-9-9h6m6 0h6"/></svg>
+            Toca la imagen para ver los datos completos
+          </div>
+        </div>
+
+        <div class="upload-zone" id="payUploadZone">
+          <div class="upload-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/><polyline points="16 16 12 12 8 16"/></svg>
+          </div>
+          <h5>Sube tu comprobante</h5>
+          <p>Una vez hayas pagado, sube aquí la imagen<br/>JPG, PNG o PDF · <strong>Máx 5 MB</strong></p>
+          <div class="file-input-wrap">
+            <input type="file" id="payFile" accept="image/*,.pdf" onchange="payOnFile()"/>
+            <div class="file-fake-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+              Elegir archivo
+            </div>
+          </div>
+          <div class="file-selected" id="payFileName" style="display:none;"></div>
+          <button class="btn btn-gold" id="payUBtn" onclick="paySubirComprobante()" style="margin-top:12px;display:none;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Confirmar y subir
+          </button>
+        </div>
+
+        <p style="text-align:center;font-size:.74rem;color:var(--muted);margin-top:14px;line-height:1.6;">
+          También puedes subirlo después desde<br/>la pestaña <strong style="color:var(--gold-d)">Consultar</strong> usando tu número.
+        </p>
+        <button class="btn btn-outline" onclick="closeModal()" style="margin-top:10px;">Cerrar por ahora</button>
+      </div>
+
+      <div id="v-ok-pagado" style="display:none;">
+        <div class="success-wrap">
+          <div class="success-icon green">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--g-tx)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <h3>¡Pago Confirmado!</h3>
+          <p>Tu boleta <strong id="okNum"></strong> está oficialmente registrada.<br/>¡Mucha suerte en el sorteo!</p>
+          <button class="btn btn-gold" onclick="closeModal()" style="margin-top:18px;">Cerrar</button>
+        </div>
+      </div>
+
+      <div id="v-ok-cancel" style="display:none;">
+        <div class="success-wrap">
+          <div class="success-icon red">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--r-tx)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+          </div>
+          <h3>Boleta Cancelada</h3>
+          <p>El número fue marcado como cancelado.</p>
+          <button class="btn btn-outline" onclick="closeModal()" style="margin-top:18px;">Cerrar</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+const GAS = 'https://script.google.com/macros/s/AKfycbz5DzYy-mTI71n_9g6eXsYTG2kD2i_HuqZDdMRYchwf_ACH6l2kgFsARG8wt_nrzGuR/exec';
+const REFRESH_MS = 20000;
+
+var tickets=[],curNum=null,curTicket=null,curMode=null,refreshTimer=null;
+var payFileData=null,qFileData=null;
+
+function $(id){return document.getElementById(id);}
+function show(id){$(id).style.display='';}
+function hide(id){$(id).style.display='none';}
+function showView(id){
+  ['v-opciones','v-info','v-form','v-cancel-confirm','v-ok-apartar','v-pago','v-ok-pagado','v-ok-cancel']
+    .forEach(function(v){hide(v);});
+  show(id);
+}
+function toast(msg,type){
+  var t=$('toast');t.textContent=msg;t.className='show '+(type||'ok');
+  clearTimeout(t._t);t._t=setTimeout(function(){t.className='';},3000);
+}
+function switchTab(id,btn){
+  document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('active');});
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
+  $(id).classList.add('active');btn.classList.add('active');
+}
+function setLive(ok){
+  var el=$('live'),txt=$('liveTxt');
+  if(ok){el.classList.remove('off');txt.textContent='Conectado en tiempo real';}
+  else  {el.classList.add('off');txt.textContent='Sin conexión';}
+}
+
+async function apiGet(params){
+  var qs=Object.keys(params).map(function(k){return k+'='+encodeURIComponent(params[k]);}).join('&');
+  var r=await fetch(GAS+'?'+qs,{method:'GET',redirect:'follow'});
+  return r.json();
+}
+async function apiPost(body){
+  var r=await fetch(GAS,{
+    method:'POST',redirect:'follow',
+    headers:{'Content-Type':'text/plain;charset=utf-8'},
+    body:JSON.stringify(body)
+  });
+  return r.json();
+}
+
+async function load(silencioso){
+  try{
+    var d=await apiGet({action:'getTickets'});
+    tickets=d.tickets||[];
+    renderStats(tickets);renderProgress(tickets);renderGrid(tickets);
+    setLive(true);
+  }catch(e){
+    setLive(false);
+    if(!silencioso){
+      $('grid').innerHTML='<div class="loader" style="color:var(--r-tx)">Sin conexión. Verifica la URL del script.</div>';
+    }
+  }
+}
+function manualRefresh(){
+  var b=$('refreshBtn');b.classList.add('spin');
+  load().then(function(){setTimeout(function(){b.classList.remove('spin');},400);});
+}
+function startAutoRefresh(){
+  stopAutoRefresh();
+  refreshTimer=setInterval(function(){
+    if($('overlay').classList.contains('open')) return;
+    load(true);
+  },REFRESH_MS);
+}
+function stopAutoRefresh(){if(refreshTimer){clearInterval(refreshTimer);refreshTimer=null;}}
+document.addEventListener('visibilitychange',function(){
+  if(document.hidden) stopAutoRefresh();
+  else {load(true);startAutoRefresh();}
+});
+
+function renderStats(tt){
+  var c={DISPONIBLE:0,APARTADO:0,PAGADO:0,CANCELADO:0};
+  tt.forEach(function(t){c[t.estado]=(c[t.estado]||0)+1;});
+  $('stats').innerHTML=
+    '<div class="stat"><div class="stat-n gold">'+tt.length+'</div><div class="stat-l">Total</div></div>'+
+    '<div class="stat"><div class="stat-n g">'+(c.DISPONIBLE||0)+'</div><div class="stat-l">Disp.</div></div>'+
+    '<div class="stat"><div class="stat-n a">'+(c.APARTADO||0)+'</div><div class="stat-l">Apart.</div></div>'+
+    '<div class="stat"><div class="stat-n p">'+(c.PAGADO||0)+'</div><div class="stat-l">Pagado</div></div>'+
+    '<div class="stat"><div class="stat-n c">'+(c.CANCELADO||0)+'</div><div class="stat-l">Canc.</div></div>';
+}
+function renderProgress(tt){
+  if(!tt.length)return;
+  var ocupado=tt.filter(function(t){return t.estado==='APARTADO'||t.estado==='PAGADO';}).length;
+  var pct=Math.round(ocupado/tt.length*100);
+  $('progressPct').textContent=pct+'%';
+  $('progressFill').style.width=pct+'%';
+}
+
+var lbl={DISPONIBLE:'libre',APARTADO:'apart.',PAGADO:'pagado',CANCELADO:'cancel.'};
+function renderGrid(tt){
+  var g=$('grid');
+  if(!tt.length){g.innerHTML='<div class="loader">Sin tickets</div>';return;}
+  g.innerHTML='';
+  tt.forEach(function(t){
+    var el=document.createElement('div');
+    el.className='ticket '+t.estado;
+    el.id='tk-'+t.numero;
+    el.innerHTML=t.numero+'<span class="ticket-badge">'+(lbl[t.estado]||t.estado)+'</span>';
+    el.onclick=function(){openModal(t);};
+    g.appendChild(el);
+  });
+}
+function highlight(){
+  var n=$('sNum').value.trim();if(!n)return;
+  document.querySelectorAll('.ticket').forEach(function(el){el.style.outline='';});
+  var el=$('tk-'+n);
+  if(el){
+    el.scrollIntoView({behavior:'smooth',block:'center'});
+    el.style.outline='3px solid var(--gold)';el.style.outlineOffset='3px';
+    setTimeout(function(){el.style.outline='';},2400);
+  } else toast('Número no encontrado','err');
+}
+
+function openModal(t){
+  curNum=t.numero;curTicket=t;
+  $('mTitle').textContent='Boleta #'+t.numero;
+  $('mNumCancel').textContent='#'+t.numero;
+  $('mNum').textContent='#'+t.numero;
+  $('pagoNum').textContent='Boleta #'+t.numero;
+  $('apNum').textContent='#'+t.numero;
+  $('okNum').textContent='#'+t.numero;
+  payFileData=null;$('payFile').value='';
+  hide('payFileName');hide('payUBtn');
+  $('payUploadZone').classList.remove('has-file');
+  if(t.estado==='DISPONIBLE'){
+    $('mSub').textContent='Selecciona una opción';showView('v-opciones');
+  } else {
+    $('mSub').textContent='Estado: '+t.estado;
+    renderInfo(t);showView('v-info');
+  }
+  $('overlay').classList.add('open');
+}
+function renderInfo(t){
+  var html=
+    '<div class="info-row"><span class="k">Estado</span><span class="v"><span class="badge '+t.estado+'">'+t.estado+'</span></span></div>'+
+    '<div class="info-row"><span class="k">Comprador</span><span class="v">'+(t.comprador||'—')+'</span></div>'+
+    '<div class="info-row"><span class="k">Teléfono</span><span class="v">'+(t.telefono||'—')+'</span></div>'+
+    '<div class="info-row"><span class="k">Cédula</span><span class="v">'+(t.cedula||'—')+'</span></div>';
+  if(t.desprendible){
+    html+='<div class="info-row"><span class="k">Comprobante</span><span class="v"><a href="'+t.desprendible+'" target="_blank" style="color:var(--p-tx);">Ver</a></span></div>';
+  }
+  $('infoCard').innerHTML=html;
+  if(t.estado==='CANCELADO'){hide('btnCancelarInfo');} else {show('btnCancelarInfo');}
+}
+function closeModal(){
+  $('overlay').classList.remove('open');
+  curNum=null;curMode=null;curTicket=null;payFileData=null;
+  load(true);
+}
+function bgClick(e){if(e.target===$('overlay'))closeModal();}
+function backFromCancel(){
+  if(curTicket && curTicket.estado!=='DISPONIBLE') showView('v-info');
+  else showView('v-opciones');
+}
+
+function showForm(mode){
+  curMode=mode;
+  $('formSubtitle').textContent=mode==='pagar'
+    ?'Completa tus datos para registrar tu boleta. Después te mostramos los datos de pago.'
+    :'Completa tus datos para apartar la boleta sin pago inmediato.';
+  $('f-nombre').value='';$('f-tel').value='';$('f-ced').value='';
+  $('fBtn').disabled=false;showView('v-form');
+}
+async function submitForm(){
+  var nombre=$('f-nombre').value.trim();
+  var tel=$('f-tel').value.trim();
+  var ced=$('f-ced').value.trim();
+  if(!nombre||!tel||!ced){toast('Completa todos los campos','err');return;}
+  var btn=$('fBtn');btn.disabled=true;btn.textContent='Guardando…';
+  try{
+    var d=await apiPost({action:curMode,numero:curNum,comprador:nombre,telefono:tel,cedula:ced});
+    btn.disabled=false;btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Confirmar';
+    if(d.error){toast(d.error,'err');return;}
+    if(curMode==='pagar'){showView('v-pago');}
+    else{showView('v-ok-apartar');}
+    load(true);
+  }catch(e){
+    btn.disabled=false;btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Confirmar';
+    toast('Error de conexión','err');
+  }
+}
+
+function showConfirmCancel(){showView('v-cancel-confirm');}
+async function doCancelar(){
+  var btn=$('cancelBtn');btn.disabled=true;btn.textContent='Cancelando…';
+  try{
+    var d=await apiPost({action:'cancelar',numero:curNum});
+    btn.disabled=false;btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg> Sí, Cancelar';
+    if(d.error){toast(d.error,'err');return;}
+    showView('v-ok-cancel');load(true);
+  }catch(e){
+    btn.disabled=false;
+    toast('Error de conexión','err');
+  }
+}
+
+function payOnFile(){
+  var f=$('payFile').files[0];
+  if(!f){
+    payFileData=null;hide('payFileName');hide('payUBtn');
+    $('payUploadZone').classList.remove('has-file');return;
+  }
+  if(f.size>5*1024*1024){toast('Archivo mayor a 5 MB','err');$('payFile').value='';return;}
+  payFileData=f;
+  $('payFileName').innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>'+f.name;
+  show('payFileName');show('payUBtn');
+  $('payUploadZone').classList.add('has-file');
+}
+async function paySubirComprobante(){
+  if(!payFileData){toast('Selecciona un archivo','err');return;}
+  var btn=$('payUBtn');btn.disabled=true;btn.textContent='Subiendo…';
+  var reader=new FileReader();
+  reader.onload=async function(ev){
+    var b64=ev.target.result.split(',')[1];
+    try{
+      var d=await apiPost({action:'comprobante',numero:curNum,base64:b64,mimeType:payFileData.type,fileName:payFileData.name});
+      btn.disabled=false;btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Confirmar y subir';
+      if(d.error){toast(d.error,'err');return;}
+      showView('v-ok-pagado');load(true);
+    }catch(e){
+      btn.disabled=false;btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Confirmar y subir';
+      toast('Error subiendo el comprobante','err');
+    }
+  };
+  reader.readAsDataURL(payFileData);
+}
+
+async function doQuery(){
+  var n=$('qNum').value.trim();
+  if(!n){toast('Ingresa un número','err');return;}
+  var rb=$('resultBox');rb.classList.remove('show');
+  try{
+    var d=await apiGet({action:'query',numero:n});
+    if(d.error){toast(d.error,'err');return;}
+    var t=d.ticket;
+    $('r-n').textContent=t.numero;
+    $('r-e').innerHTML='<span class="badge '+t.estado+'">'+t.estado+'</span>';
+    $('r-c').textContent=t.comprador||'—';
+    $('r-t').textContent=t.telefono||'—';
+    $('r-cc').textContent=t.cedula||'—';
+    $('qUploadZone').dataset.num=t.numero;
+    qFileData=null;$('qUFile').value='';hide('qFileName');hide('qUBtn');
+    $('qUploadZone').classList.remove('has-file');
+    var uw=$('qUploadWrap'),cr=$('compRow');
+    if(t.estado==='APARTADO'){uw.style.display='';cr.style.display='none';}
+    else if(t.desprendible){uw.style.display='none';$('compUrl').href=t.desprendible;cr.style.display='';}
+    else{uw.style.display='none';cr.style.display='none';}
+    rb.classList.add('show');
+  }catch(e){toast('Error de conexión','err');}
+}
+function qOnFile(){
+  var f=$('qUFile').files[0];
+  if(!f){qFileData=null;hide('qFileName');hide('qUBtn');$('qUploadZone').classList.remove('has-file');return;}
+  if(f.size>5*1024*1024){toast('Archivo mayor a 5 MB','err');$('qUFile').value='';return;}
+  qFileData=f;
+  $('qFileName').innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>'+f.name;
+  show('qFileName');show('qUBtn');
+  $('qUploadZone').classList.add('has-file');
+}
+async function qSubirComprobante(){
+  if(!qFileData){toast('Selecciona un archivo','err');return;}
+  var num=$('qUploadZone').dataset.num;
+  var btn=$('qUBtn');btn.disabled=true;btn.textContent='Subiendo…';
+  var reader=new FileReader();
+  reader.onload=async function(ev){
+    var b64=ev.target.result.split(',')[1];
+    try{
+      var d=await apiPost({action:'comprobante',numero:num,base64:b64,mimeType:qFileData.type,fileName:qFileData.name});
+      btn.disabled=false;btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Subir comprobante';
+      if(d.error){toast(d.error,'err');return;}
+      toast('Comprobante cargado correctamente');
+      $('compUrl').href=d.url;$('compRow').style.display='';
+      $('qUploadWrap').style.display='none';
+      $('r-e').innerHTML='<span class="badge PAGADO">PAGADO</span>';
+      load(true);
+    }catch(e){
+      btn.disabled=false;
+      toast('Error subiendo el comprobante','err');
+    }
+  };
+  reader.readAsDataURL(qFileData);
+}
+
+load();
+startAutoRefresh();
+</script>
+</body>
+</html>
