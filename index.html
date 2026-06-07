@@ -214,7 +214,7 @@ body {
    CONTADORES DE ESTADO
    ============================================================ */
 .contadores {
-  display: grid; grid-template-columns: repeat(4, 1fr);
+  display: grid; grid-template-columns: repeat(2, 1fr);
   gap: 8px; margin-top: 14px;
 }
 .contador {
@@ -276,25 +276,11 @@ body {
   z-index: 1;
 }
 
-.numero.estado-APARTADO {
+/* Único estado "tomado" (oculta si es apartado, pagado o cancelado) */
+.numero.estado-OCUPADO {
   background: var(--estado-apartado-bg);
   border-color: var(--estado-apartado-borde);
   color: var(--estado-apartado-texto);
-}
-.numero.estado-PAGADO {
-  background: var(--estado-pagado-bg);
-  border-color: var(--estado-pagado-borde);
-  color: var(--estado-pagado-texto);
-}
-.numero.estado-PAGADO::after {
-  content: '✓'; position: absolute; top: 1px; right: 3px;
-  font-size: 9px; font-weight: 700; opacity: 0.7;
-}
-.numero.estado-CANCELADO {
-  background: var(--estado-cancelado-bg);
-  border-color: var(--estado-cancelado-borde);
-  color: var(--estado-cancelado-texto);
-  text-decoration: line-through;
 }
 
 /* Estado vacío mientras carga */
@@ -319,9 +305,7 @@ body {
   width: 11px; height: 11px; border-radius: 3px; border: 1px solid;
 }
 .leyenda .cuad.libre   { background: var(--estado-disponible-bg); border-color: var(--estado-disponible-borde); }
-.leyenda .cuad.apartado{ background: var(--estado-apartado-bg);   border-color: var(--estado-apartado-borde); }
-.leyenda .cuad.pagado  { background: var(--estado-pagado-bg);     border-color: var(--estado-pagado-borde); }
-.leyenda .cuad.cancel  { background: var(--estado-cancelado-bg);  border-color: var(--estado-cancelado-borde); }
+.leyenda .cuad.ocupado { background: var(--estado-apartado-bg);   border-color: var(--estado-apartado-borde); }
 
 /* ============================================================
    FOOTER
@@ -413,12 +397,8 @@ body {
 }
 .modal-estado.DISPONIBLE { background: var(--color-fondo-tarjeta); color: var(--color-acento-oscuro); border: 1px solid var(--color-borde); }
 .modal-estado.DISPONIBLE .punto { background: var(--color-acento); }
-.modal-estado.APARTADO   { background: var(--estado-apartado-bg); color: var(--estado-apartado-texto); }
-.modal-estado.APARTADO .punto { background: var(--estado-apartado-texto); }
-.modal-estado.PAGADO     { background: var(--estado-pagado-bg); color: var(--estado-pagado-texto); }
-.modal-estado.PAGADO .punto { background: var(--estado-pagado-texto); }
-.modal-estado.CANCELADO  { background: var(--estado-cancelado-bg); color: var(--estado-cancelado-texto); }
-.modal-estado.CANCELADO .punto { background: var(--estado-cancelado-texto); }
+.modal-estado.OCUPADO    { background: var(--estado-apartado-bg); color: var(--estado-apartado-texto); }
+.modal-estado.OCUPADO .punto { background: var(--estado-apartado-texto); }
 
 .modal-body { padding: 22px 26px; }
 
@@ -650,19 +630,11 @@ body {
     <div class="contadores">
       <div class="contador libre">
         <div class="num" id="cnt-libre">—</div>
-        <div class="lbl">Libres</div>
+        <div class="lbl">Disponibles</div>
       </div>
       <div class="contador aparta">
-        <div class="num" id="cnt-aparta">—</div>
-        <div class="lbl">Apartadas</div>
-      </div>
-      <div class="contador pagada">
-        <div class="num" id="cnt-pagada">—</div>
-        <div class="lbl">Pagadas</div>
-      </div>
-      <div class="contador cancel">
-        <div class="num" id="cnt-cancel">—</div>
-        <div class="lbl">Canceladas</div>
+        <div class="num" id="cnt-ocupada">—</div>
+        <div class="lbl">Tomadas</div>
       </div>
     </div>
   </div>
@@ -680,9 +652,7 @@ body {
 
     <div class="leyenda">
       <div class="item"><div class="cuad libre"></div><span>Disponible</span></div>
-      <div class="item"><div class="cuad apartado"></div><span>Apartado</span></div>
-      <div class="item"><div class="cuad pagado"></div><span>Pagado</span></div>
-      <div class="item"><div class="cuad cancel"></div><span>Cancelado</span></div>
+      <div class="item"><div class="cuad ocupado"></div><span>Tomada</span></div>
     </div>
   </div>
 
@@ -748,6 +718,7 @@ let TICKETS = {};           // { "00": {estado, comprador, telefono, cedula, des
 let numeroActual = null;
 let comprobanteB64 = null;
 let comprobanteMime = null;
+let autoCedula = null;      // precarga cédula tras "Pagar ahora"
 
 /* ============================================================
    API HELPERS
@@ -828,30 +799,25 @@ async function cargarTickets() {
 function pintarGrilla() {
   document.querySelectorAll('.numero').forEach(el => {
     const n = el.dataset.numero;
-    // limpia estados previos
-    el.classList.remove('estado-APARTADO', 'estado-PAGADO', 'estado-CANCELADO');
+    el.classList.remove('estado-OCUPADO');
     const t = TICKETS[n];
     if (t && t.estado && t.estado !== 'DISPONIBLE') {
-      el.classList.add('estado-' + t.estado);
+      el.classList.add('estado-OCUPADO');
     }
   });
 }
 
 function actualizarContadores() {
-  let libre = 0, aparta = 0, pagada = 0, cancel = 0;
+  let libre = 0, ocupada = 0;
   for (let i = 0; i <= 99; i++) {
     const n = i.toString().padStart(2, '0');
     const t = TICKETS[n];
     const e = t ? t.estado : 'DISPONIBLE';
-    if (e === 'APARTADO') aparta++;
-    else if (e === 'PAGADO') pagada++;
-    else if (e === 'CANCELADO') cancel++;
-    else libre++;
+    if (e === 'DISPONIBLE') libre++;
+    else ocupada++;
   }
-  document.getElementById('cnt-libre').textContent  = libre;
-  document.getElementById('cnt-aparta').textContent = aparta;
-  document.getElementById('cnt-pagada').textContent = pagada;
-  document.getElementById('cnt-cancel').textContent = cancel;
+  document.getElementById('cnt-libre').textContent   = libre;
+  document.getElementById('cnt-ocupada').textContent = ocupada;
 }
 
 /* ============================================================
@@ -864,20 +830,30 @@ function abrirModal(numero) {
 
   const t = TICKETS[numero] || { numero, estado: 'DISPONIBLE' };
   const estado = t.estado || 'DISPONIBLE';
+  // Estado mostrado al cliente final: solo DISPONIBLE u OCUPADO
+  const estadoPublico = (estado === 'DISPONIBLE') ? 'DISPONIBLE' : 'OCUPADO';
 
   document.getElementById('modalNumero').textContent = numero;
 
   const elEstado = document.getElementById('modalEstado');
-  elEstado.className = 'modal-estado ' + estado;
+  elEstado.className = 'modal-estado ' + estadoPublico;
   document.getElementById('modalEstadoTxt').textContent =
-    estado.charAt(0) + estado.slice(1).toLowerCase();
+    estadoPublico === 'DISPONIBLE' ? 'Disponible' : 'Tomada';
 
-  document.getElementById('modalBody').innerHTML = renderBody(estado, t);
+  document.getElementById('modalBody').innerHTML = renderBody(estadoPublico, t);
 
   document.getElementById('modalOverlay').classList.add('activo');
 
-  // Bind eventos del body recién renderizado
-  bindEventosBody(estado, t);
+  bindEventosBody(estadoPublico, t);
+
+  // Si venimos del flujo "Pagar ahora", expande el detalle y precarga cédula
+  if (estadoPublico === 'OCUPADO' && autoCedula) {
+    const det = document.querySelector('.modal-body details');
+    if (det) det.open = true;
+    const inp = document.getElementById('f-cedula-conf');
+    if (inp) inp.value = autoCedula;
+    autoCedula = null;
+  }
 }
 
 function cerrarModal() {
@@ -924,108 +900,85 @@ function renderBody(estado, t) {
     `;
   }
 
-  if (estado === 'APARTADO') {
-    const nombre = (t.comprador || '').split(' ')[0] || 'Alguien';
-    return `
-      <div class="mensaje-info" style="margin-bottom: 16px;">
-        Este número fue apartado por <strong>${escapeHtml(nombre)}</strong>.
-        Si eres tú, sube tu comprobante de pago para confirmarlo.
-      </div>
-      <div class="campo">
-        <label>Confirma tu cédula</label>
-        <input type="text" id="f-cedula-conf" placeholder="Tu número de identificación" inputmode="numeric">
-      </div>
-      <label class="file-area" id="fileArea">
-        <input type="file" id="f-archivo" accept="image/*,application/pdf">
-        <div class="icono-up">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-            <polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
-          </svg>
+  // Estado OCUPADO — no revelamos si está apartado, pagado o cancelado
+  return `
+    <div class="mensaje-info" style="margin-bottom: 14px; text-align: center;">
+      Este número ya fue tomado.<br>
+      Por favor escoge otro disponible.
+    </div>
+    <details style="margin-top: 12px;">
+      <summary style="cursor: pointer; font-size: 12px; color: var(--color-acento-oscuro); text-align: center; font-weight: 600; padding: 8px; letter-spacing: 0.05em;">
+        ¿Tú apartaste este número? Sube tu comprobante
+      </summary>
+      <div style="margin-top: 14px;">
+        <div class="campo">
+          <label>Confirma tu cédula</label>
+          <input type="text" id="f-cedula-conf" placeholder="Tu número de identificación" inputmode="numeric">
         </div>
-        <div class="ftexto">Toca para subir comprobante</div>
-        <div class="fsub">Imagen o PDF · máx 5 MB</div>
-      </label>
-      <div class="botones" style="margin-top: 16px;">
-        <button class="btn btn-primario" id="btn-comprobante" disabled>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M20 6L9 17l-5-5"/>
-          </svg>
-          Confirmar pago
-        </button>
+        <label class="file-area" id="fileArea">
+          <input type="file" id="f-archivo" accept="image/*,application/pdf">
+          <div class="icono-up">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+            </svg>
+          </div>
+          <div class="ftexto">Toca para subir comprobante</div>
+          <div class="fsub">Imagen o PDF · máx 5 MB</div>
+        </label>
+        <div class="botones" style="margin-top: 16px;">
+          <button class="btn btn-primario" id="btn-comprobante" disabled>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 6L9 17l-5-5"/>
+            </svg>
+            Confirmar pago
+          </button>
+        </div>
       </div>
-    `;
-  }
-
-  if (estado === 'PAGADO') {
-    const nombre = (t.comprador || '').split(' ')[0] || 'el comprador';
-    const linkComp = t.desprendible
-      ? `<a class="link-comprobante" href="${t.desprendible}" target="_blank" rel="noopener">
-           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
-           </svg>
-           Ver comprobante
-         </a>`
-      : '';
-    return `
-      <div class="mensaje-info" style="text-align: center;">
-        <div style="margin-bottom: 8px;">✓ Boleta pagada por <strong>${escapeHtml(nombre)}</strong></div>
-        ¡Mucha suerte en el sorteo del 01 de Mayo!
-        ${linkComp ? `<div style="margin-top: 12px;">${linkComp}</div>` : ''}
-      </div>
-    `;
-  }
-
-  if (estado === 'CANCELADO') {
-    return `
-      <div class="mensaje-info" style="text-align: center;">
-        Esta boleta fue <strong>cancelada</strong> por el organizador y no está disponible.<br>
-        Por favor escoge otro número.
-      </div>
-    `;
-  }
-
-  return '<div class="mensaje-info">Estado desconocido.</div>';
+    </details>
+  `;
 }
 
 function bindEventosBody(estado, t) {
   if (estado === 'DISPONIBLE') {
     document.getElementById('btn-apartar').addEventListener('click', () => ejecutarAccion('apartar'));
     document.getElementById('btn-pagar').addEventListener('click',   () => ejecutarAccion('pagar'));
+    return;
   }
-  if (estado === 'APARTADO') {
-    const inp = document.getElementById('f-archivo');
-    const area = document.getElementById('fileArea');
-    const btn = document.getElementById('btn-comprobante');
-    inp.addEventListener('change', (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
-      if (file.size > 5 * 1024 * 1024) {
-        toast('Archivo demasiado grande (máx 5MB)', 'error');
-        inp.value = '';
-        return;
+
+  // OCUPADO — binding sólo si quien apartó decide abrir el detalle
+  const inp  = document.getElementById('f-archivo');
+  const area = document.getElementById('fileArea');
+  const btn  = document.getElementById('btn-comprobante');
+  if (!inp || !area || !btn) return;
+
+  inp.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    if (file.size > 5 * 1024 * 1024) {
+      toast('Archivo demasiado grande (máx 5MB)', 'error');
+      inp.value = '';
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      comprobanteB64 = reader.result.split(',')[1];
+      comprobanteMime = file.type || 'image/jpeg';
+      area.classList.add('tiene-archivo');
+      const existingPrev = area.querySelector('.preview');
+      if (existingPrev) existingPrev.remove();
+      if (file.type.startsWith('image/')) {
+        const img = document.createElement('img');
+        img.className = 'preview';
+        img.src = reader.result;
+        area.appendChild(img);
       }
-      const reader = new FileReader();
-      reader.onload = () => {
-        comprobanteB64 = reader.result.split(',')[1];
-        comprobanteMime = file.type || 'image/jpeg';
-        area.classList.add('tiene-archivo');
-        // Mostrar preview si es imagen
-        const existingPrev = area.querySelector('.preview');
-        if (existingPrev) existingPrev.remove();
-        if (file.type.startsWith('image/')) {
-          const img = document.createElement('img');
-          img.className = 'preview';
-          img.src = reader.result;
-          area.appendChild(img);
-        }
-        area.querySelector('.ftexto').textContent = file.name;
-        btn.disabled = false;
-      };
-      reader.readAsDataURL(file);
-    });
-    btn.addEventListener('click', () => ejecutarComprobante(t));
-  }
+      area.querySelector('.ftexto').textContent = file.name;
+      btn.disabled = false;
+    };
+    reader.readAsDataURL(file);
+  });
+  btn.addEventListener('click', () => ejecutarComprobante(t));
 }
 
 /* ============================================================
@@ -1073,7 +1026,8 @@ async function ejecutarAccion(tipo) {
     actualizarContadores();
 
     if (tipo === 'pagar') {
-      // Reabre el modal en modo "APARTADO" para que suba el comprobante
+      // Guarda la cédula para precargar al reabrir el modal en modo OCUPADO
+      autoCedula = cedula;
       abrirModal(numeroActual);
     } else {
       cerrarModal();
@@ -1088,8 +1042,22 @@ async function ejecutarComprobante(ticket) {
   if (!comprobanteB64) { toast('Selecciona un archivo primero', 'error'); return; }
   const cedulaConf = document.getElementById('f-cedula-conf').value.trim();
   if (!cedulaConf) { toast('Confirma tu cédula', 'error'); return; }
-  if (ticket.cedula && cedulaConf !== String(ticket.cedula).trim()) {
-    toast('La cédula no coincide con la registrada', 'error');
+
+  // Verificación local: cédula debe coincidir con la del ticket
+  if (!ticket.cedula || cedulaConf !== String(ticket.cedula).trim()) {
+    toast('La cédula no coincide', 'error');
+    return;
+  }
+
+  // Si ya está pagado o cancelado, no permitir subir otra vez
+  if (ticket.estado === 'PAGADO') {
+    toast('Tu pago ya fue confirmado anteriormente', 'exito');
+    cerrarModal();
+    return;
+  }
+  if (ticket.estado === 'CANCELADO') {
+    toast('Esta boleta ya no está disponible', 'error');
+    cerrarModal();
     return;
   }
 
@@ -1110,7 +1078,6 @@ async function ejecutarComprobante(ticket) {
     }
     toast('¡Pago confirmado! Gracias por tu apoyo 💖', 'exito');
 
-    // Actualizar local
     if (TICKETS[numeroActual]) {
       TICKETS[numeroActual].estado = 'PAGADO';
       TICKETS[numeroActual].desprendible = res.url || '';
