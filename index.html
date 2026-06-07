@@ -463,31 +463,132 @@ body {
 }
 .btn-pagado:hover:not(:disabled) { background: #B5C9AE; }
 
-/* File upload */
-.file-area {
-  border: 2px dashed var(--color-borde);
-  background: var(--color-fondo-tarjeta);
-  border-radius: 12px; padding: 22px 16px;
-  text-align: center; cursor: pointer;
-  transition: border-color 0.15s, background 0.15s;
+/* ============================================================
+   TARJETA DE DATOS DE PAGO (Nequi / Daviplata)
+   ============================================================ */
+.datos-pago {
+  position: relative; overflow: hidden;
+  background: linear-gradient(135deg, #F8E8EE 0%, #FCE5D4 100%);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 14px;
+  padding: 14px 16px 12px;
+  margin-bottom: 16px;
+  box-shadow: 0 6px 18px -8px rgba(201, 123, 127, 0.25);
 }
-.file-area:hover { border-color: var(--color-acento); background: var(--color-fondo-suave); }
+.datos-pago::before {
+  content: ''; position: absolute;
+  right: -30px; bottom: -30px;
+  width: 110px; height: 110px;
+  background: rgba(255, 255, 255, 0.35);
+  border-radius: 50%;
+}
+.dp-label {
+  font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--color-acento-oscuro); font-weight: 700;
+  margin-bottom: 4px; position: relative; z-index: 1;
+}
+.dp-numero-row {
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 10px; position: relative; z-index: 1;
+}
+.dp-numero {
+  font-family: var(--fuente-titulo);
+  font-size: 26px; font-weight: 600;
+  color: var(--color-texto); letter-spacing: 0.01em; line-height: 1;
+}
+.dp-copiar {
+  background: white; border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: 999px; padding: 7px 13px;
+  font-family: var(--fuente-cuerpo); font-size: 11px; font-weight: 700;
+  color: var(--color-acento-oscuro); cursor: pointer;
+  display: flex; align-items: center; gap: 5px;
+  transition: all 0.15s; letter-spacing: 0.04em;
+  box-shadow: 0 3px 8px -2px rgba(58, 46, 42, 0.15);
+}
+.dp-copiar:hover { background: var(--color-acento); color: white; transform: translateY(-1px); }
+.dp-copiar.copiado { background: #5A7C50; color: white; }
+.dp-copiar svg { width: 12px; height: 12px; }
+.dp-metodos {
+  display: flex; gap: 6px; margin-top: 10px;
+  position: relative; z-index: 1;
+}
+.dp-metodo {
+  padding: 4px 11px; border-radius: 999px;
+  font-size: 10px; font-weight: 800; letter-spacing: 0.08em;
+  color: white; text-transform: uppercase;
+}
+.dp-metodo.nequi     { background: #DA0081; }
+.dp-metodo.daviplata { background: #ED1C24; }
+
+/* Nota corta sobre dónde se transfiere (modo DISPONIBLE) */
+.nota-pago {
+  font-size: 11px; line-height: 1.55;
+  color: var(--color-texto-suave);
+  background: var(--color-fondo-tarjeta);
+  border: 1px solid var(--color-borde);
+  border-radius: 10px; padding: 9px 12px;
+  text-align: center; margin-top: 10px;
+}
+.nota-pago strong { color: var(--color-acento-oscuro); }
+
+/* ============================================================
+   File upload (rediseñado)
+   ============================================================ */
+.file-area {
+  display: block;
+  background: var(--color-fondo-tarjeta);
+  border: 1px solid var(--color-borde);
+  border-radius: 14px;
+  padding: 22px 18px 20px;
+  text-align: center; cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 1px 0 var(--color-borde);
+}
+.file-area:hover {
+  border-color: var(--color-acento);
+  background: var(--color-fondo-suave);
+  box-shadow: 0 8px 20px -8px rgba(201, 123, 127, 0.3);
+  transform: translateY(-1px);
+}
 .file-area input[type=file] { display: none; }
 .file-area .icono-up {
-  width: 38px; height: 38px; margin: 0 auto 8px;
-  background: var(--color-fondo-suave); border-radius: 50%;
+  width: 46px; height: 46px; margin: 0 auto 10px;
+  background: linear-gradient(135deg, var(--color-rosa), var(--color-durazno));
+  border-radius: 14px;
   display: flex; align-items: center; justify-content: center;
-  color: var(--color-acento-oscuro);
+  color: white;
+  box-shadow: 0 6px 14px -4px rgba(201, 123, 127, 0.4);
 }
-.file-area .icono-up svg { width: 18px; height: 18px; }
-.file-area .ftexto { font-size: 13px; color: var(--color-texto); font-weight: 500; }
-.file-area .fsub   { font-size: 11px; color: var(--color-texto-suave); margin-top: 3px; }
+.file-area .icono-up svg { width: 20px; height: 20px; color: white; }
+.file-area .ftexto {
+  font-family: var(--fuente-titulo);
+  font-size: 15px; color: var(--color-texto); font-weight: 500;
+}
+.file-area .fsub {
+  font-size: 10px; color: var(--color-texto-suave);
+  margin-top: 4px; letter-spacing: 0.08em; text-transform: uppercase;
+  font-weight: 600;
+}
 .file-area .preview {
-  margin-top: 10px; max-height: 180px; max-width: 100%;
-  border-radius: 8px; object-fit: contain;
+  margin-top: 14px; max-height: 200px; width: 100%;
+  border-radius: 10px; object-fit: contain;
+  background: white;
+  border: 1px solid var(--color-borde);
+  box-shadow: 0 4px 12px -4px rgba(58, 46, 42, 0.12);
 }
-.file-area.tiene-archivo { border-style: solid; border-color: var(--estado-pagado-borde); background: var(--estado-pagado-bg); }
-.file-area.tiene-archivo .ftexto { color: var(--estado-pagado-texto); font-weight: 600; }
+.file-area.tiene-archivo {
+  border-color: #A8C2A0;
+  background: var(--estado-pagado-bg);
+  box-shadow: 0 6px 18px -6px rgba(74, 107, 66, 0.3);
+}
+.file-area.tiene-archivo .icono-up {
+  background: linear-gradient(135deg, #A8C2A0, #6D8C5F);
+  box-shadow: 0 6px 14px -4px rgba(74, 107, 66, 0.45);
+}
+.file-area.tiene-archivo .ftexto {
+  color: var(--estado-pagado-texto); font-weight: 600;
+  word-break: break-word;
+}
 
 .link-comprobante {
   display: inline-flex; align-items: center; gap: 6px;
@@ -897,6 +998,9 @@ function renderBody(estado, t) {
         <strong style="color: var(--color-texto);">Apartar</strong> = reservar y pagar después.<br>
         <strong style="color: var(--color-texto);">Pagar ahora</strong> = subir comprobante de transferencia.
       </p>
+      <div class="nota-pago">
+        Si pagas ahora, transfiere a <strong>Nequi · Daviplata 301 316 4943</strong>
+      </div>
     `;
   }
 
@@ -911,6 +1015,25 @@ function renderBody(estado, t) {
         ¿Tú apartaste este número? Sube tu comprobante
       </summary>
       <div style="margin-top: 14px;">
+
+        <div class="datos-pago">
+          <div class="dp-label">Transfiere a</div>
+          <div class="dp-numero-row">
+            <div class="dp-numero">301 316 4943</div>
+            <button type="button" class="dp-copiar" id="btnCopiarNumero">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="9" y="9" width="13" height="13" rx="2"/>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+              </svg>
+              Copiar
+            </button>
+          </div>
+          <div class="dp-metodos">
+            <span class="dp-metodo nequi">Nequi</span>
+            <span class="dp-metodo daviplata">Daviplata</span>
+          </div>
+        </div>
+
         <div class="campo">
           <label>Confirma tu cédula</label>
           <input type="text" id="f-cedula-conf" placeholder="Tu número de identificación" inputmode="numeric">
@@ -918,12 +1041,12 @@ function renderBody(estado, t) {
         <label class="file-area" id="fileArea">
           <input type="file" id="f-archivo" accept="image/*,application/pdf">
           <div class="icono-up">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
               <polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
             </svg>
           </div>
-          <div class="ftexto">Toca para subir comprobante</div>
+          <div class="ftexto">Toca para subir tu comprobante</div>
           <div class="fsub">Imagen o PDF · máx 5 MB</div>
         </label>
         <div class="botones" style="margin-top: 16px;">
@@ -950,7 +1073,31 @@ function bindEventosBody(estado, t) {
   const inp  = document.getElementById('f-archivo');
   const area = document.getElementById('fileArea');
   const btn  = document.getElementById('btn-comprobante');
+  const btnCopiar = document.getElementById('btnCopiarNumero');
   if (!inp || !area || !btn) return;
+
+  // Botón copiar el número de Nequi/Daviplata
+  if (btnCopiar) {
+    btnCopiar.addEventListener('click', async (ev) => {
+      ev.preventDefault();
+      const numero = '3013164943';
+      try {
+        await navigator.clipboard.writeText(numero);
+      } catch (e) {
+        // Fallback para navegadores viejos
+        const tmp = document.createElement('input');
+        tmp.value = numero; document.body.appendChild(tmp);
+        tmp.select(); document.execCommand('copy'); tmp.remove();
+      }
+      const originalHTML = btnCopiar.innerHTML;
+      btnCopiar.classList.add('copiado');
+      btnCopiar.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Copiado';
+      setTimeout(() => {
+        btnCopiar.classList.remove('copiado');
+        btnCopiar.innerHTML = originalHTML;
+      }, 1800);
+    });
+  }
 
   inp.addEventListener('change', (e) => {
     const file = e.target.files[0];
